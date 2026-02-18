@@ -4,9 +4,10 @@
   "type": "module",
   "description": "Browser extension to translate timezones from selected text",
   "scripts": {
-    "build": "node build.js",
-    "dev": "node build.js --dev",
-    "watch": "node --watch build.js --dev"
+    "build":  "node build.js",
+    "dev":    "node build.js --dev",
+    "watch":  "node --watch build.js --dev",
+    "bundle": "node build.js --bundle"
   },
   "dependencies": {
     "chrono-node": "^2.7.0"

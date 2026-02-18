@@ -1,8 +1,10 @@
 import esbuild from "esbuild";
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 
-const isDev = process.argv.includes("--dev");
+const isDev    = process.argv.includes("--dev");
+const isBundle = process.argv.includes("--bundle");
 
 const commonOptions = {
   bundle: true,
@@ -43,7 +45,33 @@ async function build() {
   console.log(`Build complete (${isDev ? "dev" : "production"})`);
 }
 
-build().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+async function bundle() {
+  const { version } = JSON.parse(fs.readFileSync("package.json", "utf8"));
+  const releasesDir = "releases";
+  if (!fs.existsSync(releasesDir)) fs.mkdirSync(releasesDir);
+
+  // 1. Extension zip — upload this to Chrome Web Store and Firefox AMO
+  const extZip = path.join(releasesDir, `timezone-translate-${version}.zip`);
+  execSync(`cd dist && zip -r ../${extZip} .`);
+  console.log(`Extension zip : ${extZip}`);
+
+  // 2. Source zip — required by Firefox AMO when a bundler is used,
+  //    so Mozilla reviewers can verify the built code matches the source.
+  const srcZip = path.join(releasesDir, `timezone-translate-${version}-sources.zip`);
+  execSync(
+    `zip -r ${srcZip} src/ test/ icons/ manifest.json package.json package-lock.json build.js README.md LICENSE --exclude "*.DS_Store"`
+  );
+  console.log(`Source zip    : ${srcZip}`);
+  console.log(`\nPublishing:`);
+  console.log(`  Chrome Web Store  → upload ${extZip}`);
+  console.log(`    https://chrome.google.com/webstore/devconsole`);
+  console.log(`  Firefox AMO       → upload ${extZip}, attach ${srcZip} as source`);
+  console.log(`    https://addons.mozilla.org/developers/`);
+}
+
+build()
+  .then(() => isBundle && bundle())
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
