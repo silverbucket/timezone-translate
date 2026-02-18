@@ -53,28 +53,3 @@ npm run watch
 | International | `UTC`, `GMT`, `CET`, `CEST`, `BST`, `IST`, `JST`, `KST`, `AEST`, `NZST`, … |
 | Other regions | `Alaska`, `Hawaii`, `Atlantic`, `Brazil`, `Argentina`, `New Zealand`, … |
 
-## Project structure
-
-```
-src/
-├── background/
-│   └── service-worker.js   # Context menu registration + message dispatch
-├── content/
-│   ├── content.js          # Message listener, wires parse → dialog
-│   ├── dialog.js           # Shadow DOM modal with live conversion UI
-│   └── timezone-data.js    # TZ abbreviation map + IANA timezone list
-└── shared/
-    └── parser.js           # chrono-node wrapper + Intl conversion
-test/
-└── index.js                # Comprehensive test suite (node test/index.js)
-```
-
-## Tech
-
-- [chrono-node](https://github.com/wanasit/chrono) — natural language date/time parsing
-- [esbuild](https://esbuild.github.io/) — bundler
-- Native `Intl.DateTimeFormat` — timezone conversion (no external timezone library needed)
-
-## License
-
-MIT
