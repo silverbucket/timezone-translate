@@ -4,15 +4,17 @@
   "type": "module",
   "description": "Browser extension to translate timezones from selected text",
   "scripts": {
-    "build":  "node build.js",
-    "dev":    "node build.js --dev",
-    "watch":  "node --watch build.js --dev",
-    "bundle": "node build.js --bundle"
+    "build": "node build.js",
+    "dev": "node build.js --dev",
+    "watch": "node --watch build.js --dev",
+    "bundle":          "node build.js --bundle",
+    "generate-assets": "node scripts/generate-assets.js"
   },
   "dependencies": {
     "chrono-node": "^2.7.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "esbuild": "^0.21.0"
   }
 }

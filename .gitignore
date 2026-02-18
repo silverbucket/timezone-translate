@@ -2,3 +2,5 @@ node_modules/
 dist/
 releases/
 *.DS_Store
+# Generated assets are committed; this just prevents accidental duplicates
+store/*.jpg
