@@ -1,0 +1,17 @@
+{
+  "name": "timezone-translator",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Browser extension to translate timezones from selected text",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --dev",
+    "watch": "node --watch build.js --dev"
+  },
+  "dependencies": {
+    "chrono-node": "^2.7.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.0"
+  }
+}
