@@ -31,8 +31,11 @@ async function build() {
     platform: "browser",
   });
 
-  // Copy manifest.json
-  fs.copyFileSync("manifest.json", "dist/manifest.json");
+  // Copy manifest.json, syncing version from package.json
+  const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+  const manifest = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
+  manifest.version = pkg.version;
+  fs.writeFileSync("dist/manifest.json", JSON.stringify(manifest, null, 2));
 
   // Copy icons/
   const iconsDir = "icons";
