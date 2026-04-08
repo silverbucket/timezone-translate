@@ -22,12 +22,13 @@ async function build() {
     globalName: "TimezoneTranslator",
   });
 
-  // Service worker declared as "type": "module" in manifest
+  // Shared background entry used as a service worker in Chromium and as a
+  // Firefox-compatible background script fallback.
   await esbuild.build({
     ...commonOptions,
     entryPoints: ["src/background/service-worker.js"],
     outfile: "dist/service-worker.js",
-    format: "esm",
+    format: "iife",
     platform: "browser",
   });
 
