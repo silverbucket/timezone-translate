@@ -20,7 +20,7 @@ https://chromewebstore.google.com/detail/timezone-translator/lepkpohecahdpiecemi
 
 ### Firefox Browser Add-ons
 
-TBA
+https://addons.mozilla.org/en-US/firefox/addon/timezone-translator/
 
 ### From source
 
