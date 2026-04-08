@@ -245,7 +245,9 @@ export function showDialog({ selectedText, parsed, detectedTZ }) {
   // Header
   const header = document.createElement("div");
   header.className = "header";
-  header.innerHTML = `<h2>Timezone Translator</h2>`;
+  const title = document.createElement("h2");
+  title.textContent = "Timezone Translator";
+  header.appendChild(title);
   const closeBtn = document.createElement("button");
   closeBtn.className = "close-btn";
   closeBtn.setAttribute("aria-label", "Close");
@@ -263,7 +265,7 @@ export function showDialog({ selectedText, parsed, detectedTZ }) {
   const selectedEl = document.createElement("div");
   selectedEl.className = "selected-text";
   selectedEl.title = selectedText;
-  selectedEl.innerHTML = `<strong>"</strong>${escapeHtml(selectedText)}<strong>"</strong>`;
+  appendQuotedText(selectedEl, selectedText);
   body.appendChild(selectedEl);
 
   // If no date parsed, show error state
@@ -279,7 +281,7 @@ export function showDialog({ selectedText, parsed, detectedTZ }) {
   // Parsed summary
   const parsedSummary = document.createElement("div");
   parsedSummary.className = "parsed-summary";
-  parsedSummary.innerHTML = buildParsedSummary(parsed);
+  appendParsedSummary(parsedSummary, parsed);
   body.appendChild(parsedSummary);
 
   const localTZ = getLocalTimezone();
@@ -390,7 +392,19 @@ export function showDialog({ selectedText, parsed, detectedTZ }) {
   closeBtn.focus();
 }
 
-function buildParsedSummary(parsed) {
+function appendQuotedText(container, value) {
+  const openQuote = document.createElement("strong");
+  openQuote.textContent = "\"";
+  container.appendChild(openQuote);
+
+  container.appendChild(document.createTextNode(value));
+
+  const closeQuote = document.createElement("strong");
+  closeQuote.textContent = "\"";
+  container.appendChild(closeQuote);
+}
+
+function appendParsedSummary(container, parsed) {
   const fmt = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -398,19 +412,20 @@ function buildParsedSummary(parsed) {
     minute: "2-digit",
   });
   const startStr = fmt.format(parsed.start);
-  if (parsed.hasRange && parsed.end) {
-    const endStr = fmt.format(parsed.end);
-    return `Parsed: <span>${startStr}</span> → <span>${endStr}</span>`;
-  }
-  return `Parsed: <span>${startStr}</span>`;
-}
 
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  container.appendChild(document.createTextNode("Parsed: "));
+
+  const start = document.createElement("span");
+  start.textContent = startStr;
+  container.appendChild(start);
+
+  if (parsed.hasRange && parsed.end) {
+    container.appendChild(document.createTextNode(" \u2192 "));
+
+    const end = document.createElement("span");
+    end.textContent = fmt.format(parsed.end);
+    container.appendChild(end);
+  }
 }
 
 function removeDialog() {
