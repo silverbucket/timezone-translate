@@ -14,6 +14,14 @@ A Chrome and Firefox browser extension that lets you highlight any natural-langu
 
 ## Installation
 
+### Chrome Web Store
+
+https://chromewebstore.google.com/detail/timezone-translator/lepkpohecahdpiecemipligdiamjmjem
+
+### Firefox Browser Add-ons
+
+TBA
+
 ### From source
 
 ```bash
